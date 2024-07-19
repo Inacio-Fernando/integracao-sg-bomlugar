@@ -1,0 +1,43 @@
+{
+    "name": "cartazfacil/integracao-parana",
+    "description": "Integração de produtos, preços e impressão dinâmica de cartazes",
+    "type": "project",
+    "require": {
+        "vlucas/phpdotenv": "^4.3",
+        "monolog/monolog": "^1.27",
+        "illuminate/database": "^5.5",
+        "guzzlehttp/guzzle": "^6.5",
+        "mavinoo/laravel-batch": "^2.3"
+    },
+    "repositories": [
+        
+    ],
+    "autoload": {
+        "psr-4": {
+            "IntegracaoParana\\": "src/"
+        },
+        "classmap": [
+            "src/"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Iran"
+        }
+    ],
+    "config": {
+        "platform": {
+            "php": "7.0"
+        },
+        "platform-check": false,
+        "allow-plugins": {
+            "kylekatarnls/update-helper": false
+        }
+    },
+    
+    "autoload-dev": {
+        "classmap": [
+            "test/"
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+\.vscode
+\vendor
+\logs
+\.env
+.env
+.directory
+composer.lock
+query-to-file-measure-time.php
+dump.txt
+dump-update.txt
+test
+\test
