@@ -1,5 +1,5 @@
 {
-    "name": "cartazfacil/integracao-parana",
+    "name": "cartazfacil/integracao-sgsistemas",
     "description": "Integração de produtos, preços e impressão dinâmica de cartazes",
     "type": "project",
     "require": {
@@ -14,7 +14,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "IntegracaoParana\\": "src/"
+            "IntegracaoSgsistemas\\": "src/"
         },
         "classmap": [
             "src/"
@@ -22,7 +22,7 @@
     },
     "authors": [
         {
-            "name": "Iran"
+            "name": "Bernardo"
         }
     ],
     "config": {
@@ -33,11 +33,5 @@
         "allow-plugins": {
             "kylekatarnls/update-helper": false
         }
-    },
-    
-    "autoload-dev": {
-        "classmap": [
-            "test/"
-        ]
     }
 }
