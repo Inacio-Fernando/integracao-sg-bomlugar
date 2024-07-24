@@ -17,7 +17,7 @@ use IntegracaoSgsistemas\Infra\Database\Database;
 try {
 Database::setupEloquent();
 $client = new GuzzleAdapter();
-$gateway = new ApiGatewayHttp($client, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoiY2FydGF6ZmFjaWwiLCJleHBpcmVfdGltZSI6IjIwMjQtMDctMjQgMTY6NDE6NDYifQ.MCVhHM2v0A0nvDc14BCy5qk6g60AG450NuQP8ViDSjU");
+$gateway = new ApiGatewayHttp($client);
 
 $handler = new CreateProductsHandler($gateway);
 $handler->setNext(new CreatePricesHandler());
@@ -34,7 +34,7 @@ new CronController(
     $createPromotionalPricesUsecase
 );
 $command = $_GET['script'];
-$cronHandler->type('create-all');
+$cronHandler->type($command);
 
 } catch (\Throwable $th) {
     echo $th;
