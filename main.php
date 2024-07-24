@@ -15,27 +15,27 @@ use IntegracaoSgsistemas\Infra\Database\Database;
 
 
 try {
-Database::setupEloquent();
-$client = new GuzzleAdapter();
-$gateway = new ApiGatewayHttp($client);
+    Database::setupEloquent();
+    $client = new GuzzleAdapter();
+    $gateway = new ApiGatewayHttp($client);
 
-$handler = new CreateProductsHandler($gateway);
-$handler->setNext(new CreatePricesHandler());
+    $handler = new CreateProductsHandler($gateway);
+    $handler->setNext(new CreatePricesHandler());
 
-$createProductsUsecase = new CreateProductsUsecase($gateway, $handler); 
-$createPricesUsecase = new CreatePricesUsecase($gateway, $handler);
-$createPromotionalPricesUsecase = new CreatePromotionalPricesUsecase($gateway, $handler);
+    $createProductsUsecase = new CreateProductsUsecase($gateway, $handler);
+    $createPricesUsecase = new CreatePricesUsecase($gateway, $handler);
+    $createPromotionalPricesUsecase = new CreatePromotionalPricesUsecase($gateway, $handler);
 
-$cronHandler = new CronHandlerImpl();
-new CronController(
-    $cronHandler,
-    $createProductsUsecase,
-    $createPricesUsecase,
-    $createPromotionalPricesUsecase
-);
-$command = $_GET['script'];
-$cronHandler->type($command);
+    $cronHandler = new CronHandlerImpl();
+    new CronController(
+        $cronHandler,
+        $createProductsUsecase,
+        $createPricesUsecase,
+        $createPromotionalPricesUsecase
+    );
+    $command = $argv[1] || '';
 
+    $cronHandler->type($command);
 } catch (\Throwable $th) {
     echo $th;
 }
