@@ -165,7 +165,9 @@ class CreatePricesHandler extends AbstractHandler
             $updateData = array();
 
             $promotionsData = $data['promotions'];
-            $productCodes  = array_column(array_column($promotionsData, 'produtos'), 'idProduto');
+            $products = array_merge(...array_column($promotionsData, 'produtos'));
+            $productCodes  = array_unique(array_column($products, 'idProduto'));
+
             $products = ProductTable::with('prices')->whereIn('prod_cod', array_unique($productCodes))->get(['prod_id', 'prod_cod']);
             $products = $products->keyBy('prod_cod');
 
@@ -173,7 +175,7 @@ class CreatePricesHandler extends AbstractHandler
             foreach ($promotionsData as $promotionData) {
                 foreach ($promotionData['produtos'] as $productData) {
 
-                    $code = $priceData['idProduto'];
+                    $code = $productData['idProduto'];
                     $product = $products->get($code);
                     if (!$product) {
                         Log::error("Create Promotional Prices: Falha ao buscar produto: " . json_encode($productData));
@@ -187,21 +189,16 @@ class CreatePricesHandler extends AbstractHandler
                     $basePrice = $product->prices->first(function ($price) use ($filial) {
                         return ($price->vlr_filial == $filial) && ($price->vlr_idcomercial == 1);
                     });
-                    $promotionalPrice = ValueFormatter::formatNumber($priceData['preco']);
+                    $value = ValueFormatter::formatNumber($productData['preco']);
                     $vlr_id_comercial = 1;
-                    $value = $basePrice->vlr_valores;
-                    if($productData['descontoClienteFidelizado'] > 0) {
+                    if($basePrice && $productData['descontoClienteFidelizado'] > 0) {
                         $vlr_id_comercial = 3;
-                        $value .= $promotionalPrice;
-                    } else {
-                        $value = $promotionalPrice;
-                    }
+                        $value =$basePrice->vlr_valores . "!@#". $value;
+                    } 
+                      
                     
-                    $price = $product->prices->first(function ($price) use ($filial, $vlr_id_comercial) {
-                        return ($price->vlr_filial == $filial) && ($price->vlr_idcomercial == $vlr_id_comercial);
-                    });
 
-                    if ($price) {
+                    if ($basePrice) {
                         $updateData[] = [
                             'vlr_id' => $basePrice->vlr_id,
                             'vlr_data_de' => $startDate,

@@ -169,7 +169,8 @@ class CreateProductsHandler extends AbstractHandler
             $updateData = array();
 
             $productsData = $data['promotions'];
-            $productCodes  = array_unique(array_column(array_column($productsData, 'produtos'), 'idProduto'));
+            $products = array_merge(...array_column($productsData, 'produtos'));
+            $productCodes  = array_unique(array_column($products, 'idProduto'));
 
             $products = ProductTable::whereIn('prod_cod', $productCodes)->get(['prod_id', 'prod_cod']);
             $products = $products->toArray();
@@ -189,7 +190,7 @@ class CreateProductsHandler extends AbstractHandler
                     $grupo = $this->gateway->getProductGrupo($secao['departamentalizacaoNivel2']);
                     $subgrupo = $this->gateway->getProductSubgrupo($grupo['departamentalizacaoNivel3']);
 
-                    $insertionData[] = [
+                    $insertData[] = [
                         'prod_cod'              => $code,
                         'prod_nome'             => $productData['descricao'],
                         'prod_desc'             => $productData['descricao'],

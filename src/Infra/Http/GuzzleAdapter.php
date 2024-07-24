@@ -20,7 +20,10 @@ class GuzzleAdapter implements HttpClient {
 			'base_uri' => "http://177.72.160.190:8069/integracao/sgsistemas/v1/",
 			// 'base_uri' => "http://sgps.sgsistemas.com.br:8201/integracao/sgsistemas/v1/",
 			'Accept' => 'application/json',
-	        'Content-Type' => 'application/json'
+	        'Content-Type' => 'application/json',
+			'headers' => [
+				'Connection' => 'keep-alive'
+			]
 		]);
     }
 

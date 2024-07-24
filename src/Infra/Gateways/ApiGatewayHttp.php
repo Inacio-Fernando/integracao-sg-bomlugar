@@ -135,7 +135,7 @@ class ApiGatewayHttp implements ApiGateway {
 	}
 
 	public function getPromotionsByFilial($filialId, $batchSize=100) {
-		$url ="ofertas?filial={$filialId}";
+		$url ="ofertas/produtos?filial={$filialId}";
 		$response = $this->httpClient->getAsync($url,$this->headers);
 		return $response['dados'];
 	}
