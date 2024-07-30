@@ -28,6 +28,7 @@ class GuzzleAdapter implements HttpClient {
     }
 
 	public function get($url, $headers = null) {
+		try {
 		$response = $this->client->request('GET', $url, [
 			'headers' => $headers
 		]);
@@ -36,6 +37,11 @@ class GuzzleAdapter implements HttpClient {
 			return [];
 		}
 		return json_decode($response->getBody(), true);
+			//code...
+		} catch (\Throwable $th) {
+			Log::error("Falha ao fazer requisição para o url: $url " . json_encode($th));
+			return [];
+		}
 	}
 
 	public function post($url, $body, $headers = null) {
@@ -53,6 +59,7 @@ class GuzzleAdapter implements HttpClient {
 
 	public function getAsync ($url, $headers = null) {
 		
+		try {
 		$response = $this->client->getAsync($url, ['headers' => $headers]);
 		$response = $response->wait();
 		if ($response->getStatusCode() !== 200) {
@@ -60,7 +67,11 @@ class GuzzleAdapter implements HttpClient {
 			return [];
 		}
 		return json_decode($response->getBody(), true); 
-
+			//code...
+		} catch (\Throwable $th) {
+			Log::error("Falha ao fazer requisição para o url: $url " . json_encode($th));
+			return [];
+		}
 	}
 
 
